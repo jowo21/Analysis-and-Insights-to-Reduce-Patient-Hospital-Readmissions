@@ -140,7 +140,7 @@ Reduce unplanned readmissions by increasing patient engagement with the healthca
 
 ### **2: Target High-Risk Diagnoses with Specialized Care Pathways**
 
-Objective:
+**Goal:**
 
 Decrease readmissions among patients with circulatory, respiratory, and diabetes-related conditions.
 
