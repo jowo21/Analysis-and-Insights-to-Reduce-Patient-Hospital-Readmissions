@@ -73,23 +73,37 @@ SELECT ROUND(AVG(n_outpatient),2) AS avg_outpat, ROUND(AVG(n_inpatient),2) AS av
 FROM hospital_readmissions
 ;
 
-#Readmissions based on number of visits and types
-SELECT n_outpatient, SUM(CASE WHEN readmitted = "yes" THEN 1 ELSE 0 END) AS count_readmissions
+#Combined readmissions based on number of visits 
+WITH outpatient AS
+(
+SELECT n_outpatient, SUM(CASE WHEN readmitted = "yes" THEN 1 ELSE 0 END) AS out_readmissions
 FROM hospital_readmissions
 GROUP BY n_outpatient
-ORDER BY 2 DESC
-;
+ORDER BY 1 ASC
+),
 
-SELECT n_inpatient, SUM(CASE WHEN readmitted = "yes" THEN 1 ELSE 0 END) AS count_readmissions
+inpatient AS
+(
+SELECT n_inpatient, SUM(CASE WHEN readmitted = "yes" THEN 1 ELSE 0 END) AS in_readmissions
 FROM hospital_readmissions
 GROUP BY n_inpatient
-ORDER BY 2 DESC
-;
+ORDER BY 1 ASC
+),
 
-SELECT n_emergency, SUM(CASE WHEN readmitted = "yes" THEN 1 ELSE 0 END) AS count_readmissions
+emergency AS
+(
+SELECT n_emergency, SUM(CASE WHEN readmitted = "yes" THEN 1 ELSE 0 END) AS em_readmissions
 FROM hospital_readmissions
 GROUP BY n_emergency
-ORDER BY 2 DESC
+ORDER BY 1 ASC
+)
+
+SELECT *
+FROM outpatient OP
+JOIN inpatient IP
+ON OP.n_outpatient = IP.n_inpatient
+JOIN emergency EM
+ON OP.n_outpatient = EM.n_emergency
 ;
 
 
