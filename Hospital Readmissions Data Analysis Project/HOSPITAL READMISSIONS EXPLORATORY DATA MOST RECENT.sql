@@ -98,7 +98,7 @@ GROUP BY n_emergency
 ORDER BY 1 ASC
 )
 
-SELECT *
+SELECT OP.n_outpatient AS number_of_visits, OP.out_readmissions, IP.in_readmissions, EM.em_readmissions
 FROM outpatient OP
 JOIN inpatient IP
 ON OP.n_outpatient = IP.n_inpatient
